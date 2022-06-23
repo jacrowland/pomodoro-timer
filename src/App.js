@@ -67,7 +67,7 @@ function App() {
       }, 4000);
       return () => clearTimeout(timer);
     }
-  }, [timeLeft]);
+  }, [timeLeft, swap]);
 
 
   useEffect(() => {
@@ -77,7 +77,7 @@ function App() {
     if (!isRunning && !isBreak) {
       setTimeLeft(sessionLength * 60);
     }
-  }, [sessionLength, breakLength]);
+  }, [sessionLength, breakLength, isBreak, isRunning]);
 
   const swap = () => {
     setIsBreak(!isBreak);
