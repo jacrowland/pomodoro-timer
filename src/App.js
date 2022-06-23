@@ -74,7 +74,7 @@ function App() {
     if (!isRunning && !isBreak && !hasRan) {
       setTimeLeft(sessionLength * 60);
     }
-  }, [sessionLength, breakLength, isBreak, isRunning, timeLeft]);
+  }, [sessionLength, breakLength, isBreak, isRunning, timeLeft, hasRan]);
 
 
 
