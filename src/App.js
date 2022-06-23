@@ -75,7 +75,7 @@ function App() {
       }, 4000);
       return () => clearTimeout(timer);
     }
-  }, [timeLeft, setIsBreak, setTimeLeft, setSessionLabel]);
+  }, [timeLeft, breakLength, sessionLength, sessionLabel, isBreak, setIsBreak, setTimeLeft, setSessionLabel]);
 
   useEffect(() => {
     if (!isRunning && isBreak) {
