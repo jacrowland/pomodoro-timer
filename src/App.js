@@ -56,13 +56,15 @@ function App() {
   });
 
 
-  const swap = () => {
-    setIsBreak(!isBreak);
-    sessionLabel === BREAK_LABEL ? setTimeLeft(sessionLength * 60) : setTimeLeft(breakLength * 60);
-    sessionLabel === BREAK_LABEL ? setSessionLabel(SESSION_LABEL) : setSessionLabel(BREAK_LABEL);
-  }
+
 
   useEffect(() => {
+    const swap = () => {
+      setIsBreak(!isBreak);
+      sessionLabel === BREAK_LABEL ? setTimeLeft(sessionLength * 60) : setTimeLeft(breakLength * 60);
+      sessionLabel === BREAK_LABEL ? setSessionLabel(SESSION_LABEL) : setSessionLabel(BREAK_LABEL);
+    }
+
     if (timeLeft < 1) {
       // play audio
       beepAudioClipEl.current.play();
@@ -73,8 +75,7 @@ function App() {
       }, 4000);
       return () => clearTimeout(timer);
     }
-  }, [timeLeft, swap]);
-
+  }, [timeLeft, setIsBreak, setTimeLeft, setSessionLabel]);
 
   useEffect(() => {
     if (!isRunning && isBreak) {
