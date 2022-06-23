@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -56,6 +55,13 @@ function App() {
     }
   });
 
+
+  const swap = () => {
+    setIsBreak(!isBreak);
+    sessionLabel === BREAK_LABEL ? setTimeLeft(sessionLength * 60) : setTimeLeft(breakLength * 60);
+    sessionLabel === BREAK_LABEL ? setSessionLabel(SESSION_LABEL) : setSessionLabel(BREAK_LABEL);
+  }
+
   useEffect(() => {
     if (timeLeft < 1) {
       // play audio
@@ -79,11 +85,7 @@ function App() {
     }
   }, [sessionLength, breakLength, isBreak, isRunning]);
 
-  const swap = () => {
-    setIsBreak(!isBreak);
-    sessionLabel === BREAK_LABEL ? setTimeLeft(sessionLength * 60) : setTimeLeft(breakLength * 60);
-    sessionLabel === BREAK_LABEL ? setSessionLabel(SESSION_LABEL) : setSessionLabel(BREAK_LABEL);
-  }
+
 
   const formatDisplay = (seconds) => {
     const minutes = Math.floor(seconds / 60);
