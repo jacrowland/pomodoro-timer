@@ -45,7 +45,6 @@ function App() {
 
   useEffect(() => {
     if (isRunning) {
-      setHasRan(true);
       const timer = setTimeout(() => {
         setTimeLeft(timeLeft - 1);
       }, 1000);
@@ -126,6 +125,11 @@ function App() {
     borderRadius: 20
   }
 
+  const play = () => {
+    setHasRan(true)
+    setIsRunning(!isRunning);
+  }
+
   return (
     <div className="App" style={styles}>
       <div id="pomodoro-clock" style={{width: 500, backgroundColor: 'black', padding: 50, boxShadow: '5px 5px 0px 0px white', border: '5px solid white'}}>
@@ -157,7 +161,7 @@ function App() {
         </div>
 
         <div id="timer-controls">
-          <button id="start_stop" onClick={() => {setIsRunning(!isRunning)}}>
+          <button id="start_stop" onClick={play}>
             <FontAwesomeIcon icon={faPlay} />
             <FontAwesomeIcon icon={faPause} />
           </button>
