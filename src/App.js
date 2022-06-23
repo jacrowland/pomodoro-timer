@@ -13,7 +13,7 @@ const BREAK_LABEL = 'Break';
 function App() {
 
   const beepAudioClipEl = useRef(null);
-
+  const [hasRan, setHasRan] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [breakLength, setBreakLength] = useState(DEFAULT_BREAK_LENGTH); // in minutes
   const [sessionLength, setSessionLength] = useState(DEFAULT_SESSION_LENGTH); // in minutes
@@ -40,14 +40,12 @@ function App() {
     setSessionLabel(SESSION_LABEL);
     setIsBreak(false);
     setIsRunning(false);
-  }
-
-  const toggleRun = () => {
-    setIsRunning(!isRunning);
+    setHasRan(false);
   }
 
   useEffect(() => {
     if (isRunning) {
+      setHasRan(true);
       const timer = setTimeout(() => {
         setTimeLeft(timeLeft - 1);
       }, 1000);
@@ -55,36 +53,29 @@ function App() {
     }
   });
 
-
-
-
   useEffect(() => {
-    const swap = () => {
-      setIsBreak(!isBreak);
-      sessionLabel === BREAK_LABEL ? setTimeLeft(sessionLength * 60) : setTimeLeft(breakLength * 60);
-      sessionLabel === BREAK_LABEL ? setSessionLabel(SESSION_LABEL) : setSessionLabel(BREAK_LABEL);
-    }
-
     if (timeLeft < 1) {
       // play audio
       beepAudioClipEl.current.play();
       setIsRunning(false);
       const timer = setTimeout(() => {
         setIsRunning(true);
-        swap();
+        setIsBreak(!isBreak);
+        sessionLabel === BREAK_LABEL ? setTimeLeft(sessionLength * 60) : setTimeLeft(breakLength * 60);
+        sessionLabel === BREAK_LABEL ? setSessionLabel(SESSION_LABEL) : setSessionLabel(BREAK_LABEL);
       }, 4000);
       return () => clearTimeout(timer);
     }
   }, [timeLeft, breakLength, sessionLength, sessionLabel, isBreak, setIsBreak, setTimeLeft, setSessionLabel]);
 
   useEffect(() => {
-    if (!isRunning && isBreak) {
-      setTimeLeft(breakLength * 60);
+    if (!isRunning && isBreak && !hasRan) {
+        setTimeLeft(breakLength * 60);
     }
-    if (!isRunning && !isBreak) {
+    if (!isRunning && !isBreak && !hasRan) {
       setTimeLeft(sessionLength * 60);
     }
-  }, [sessionLength, breakLength, isBreak, isRunning]);
+  }, [sessionLength, breakLength, isBreak, isRunning, timeLeft]);
 
 
 
@@ -144,7 +135,7 @@ function App() {
             <h2 id="break-label">Break Length</h2>
             <div style={lengthStyle}>
               <button onClick={() => {decrementLength(breakLength, setBreakLength)}} id="break-decrement"><FontAwesomeIcon icon={faArrowDown} /></button>
-              <span class='length-label' id="break-length">{breakLength}</span>
+              <span className='length-label' id="break-length">{breakLength}</span>
               <button onClick={() => {incrementLength(breakLength, setBreakLength)}} id="break-increment"><FontAwesomeIcon icon={faArrowUp} /></button>
             </div>
           </div>
@@ -153,7 +144,7 @@ function App() {
             <h2 id="session-label">Session Length</h2>
             <div style={lengthStyle}>
               <button onClick={() => {decrementLength(sessionLength, setSessionLength)}} id="session-decrement"><FontAwesomeIcon icon={faArrowDown} /></button>
-              <span class='length-label' id="session-length">{sessionLength}</span>
+              <span className='length-label' id="session-length">{sessionLength}</span>
               <button onClick={() => {incrementLength(sessionLength, setSessionLength)}} id="session-increment"><FontAwesomeIcon icon={faArrowUp} /></button>
             </div>
           </div>
@@ -166,7 +157,7 @@ function App() {
         </div>
 
         <div id="timer-controls">
-          <button id="start_stop" onClick={toggleRun}>
+          <button id="start_stop" onClick={() => {setIsRunning(!isRunning)}}>
             <FontAwesomeIcon icon={faPlay} />
             <FontAwesomeIcon icon={faPause} />
           </button>
