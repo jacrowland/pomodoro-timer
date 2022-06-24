@@ -123,7 +123,7 @@ function App() {
           <BreakControls decrementLength={decrementLength} breakLength={breakLength} setBreakLength={setBreakLength} incrementLength={incrementLength}/>
           <SessionControls decrementLength={decrementLength} sessionLength={sessionLength} setSessionLength={setSessionLength} incrementLength={incrementLength}/>
         </div>
-        <Display timeLeft={timeLeft} />
+        <Display sessionLabel={sessionLabel} timeLeft={timeLeft} />
         <TimerControls play={play} reset={reset} />
 
         <audio
