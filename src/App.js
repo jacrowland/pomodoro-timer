@@ -125,7 +125,6 @@ function App() {
         </div>
         <Display sessionLabel={sessionLabel} timeLeft={timeLeft} />
         <TimerControls play={play} reset={reset} />
-
         <audio
           ref={beepAudioClipEl}
           id="beep"
